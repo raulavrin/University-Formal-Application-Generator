@@ -14,6 +14,14 @@
         "reason": "I am requesting a leave of absence due to [state the reason].",
         "details": "I anticipate that my leave will begin on [start date] and will last until [end date], pending your approval. I have attached any necessary documentation to support my request. Please let me know if you require any further information or paperwork to process my application.",
         "closing": "I sincerely appreciate your understanding and support during this time. I look forward to your positive response."
+    },
+    "exam retake/Re-evaluation":{
+        "subject": "Application for exam retake/Re-evaluation",
+        "introduction":"I, [Your Full Name], a student enrolled in the [Program Name, e.g., Bachelor of Science in Computer Science] program with Student ID [Your Student ID], hereby formally submit this application to request a [retake/re-evaluation] of my examination for the course [Course Code and Name] held on [Exam Date].",
+        "description": "I respectfully request a retake of the aforementioned exam / re-evaluation of my exam paper.",
+        "reason": "The primary reason for my request is [briefly describe the reason]",
+        "details": "To further support my request, I would like to mention [provide any additional details]",
+        "closing": "I kindly request that you consider my application and grant me the opportunity for a retake / re-evaluation"
     }
 }
 
