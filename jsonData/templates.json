@@ -22,6 +22,15 @@
         "reason": "The primary reason for my request is [briefly describe the reason]",
         "details": "To further support my request, I would like to mention [provide any additional details]",
         "closing": "I kindly request that you consider my application and grant me the opportunity for a retake / re-evaluation"
+    },
+    "course withdrawal/Dropping a course":{
+        "subject": "Application for course withdrawal",
+        "introduction":"I am writing to formally request to withdraw from the [Course Name] course, section [Section], with course code [Course Code], which I am currently enrolled in for the [Semester/Term - e.g., Fall 2025] term.",
+        "description":"I am requesting to withdraw from the aforementioned course.",
+        "reason": "Due to unforeseen circumstances, including [Sate your reason]",
+        "details":"I have thoroughly considered the implications of withdrawing and believe it is the most prudent decision under the current circumstances.",
+        "closing": "I understand the university's withdrawal policy and any associated deadlines. I respectfully request that my withdrawal from [Course Name] be approved."
     }
+    
 }
 
