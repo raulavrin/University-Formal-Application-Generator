@@ -1,5 +1,3 @@
-const { createClient } = window.supabase; // Use the CDN-loaded version instead of ES module
-
 let TEMPLATES = {};
 
 async function loadTemplates() {
@@ -7,7 +5,7 @@ async function loadTemplates() {
         const response = await fetch('jsonData/templates.json');
         if (!response.ok) throw new Error('Failed to load templates');
         TEMPLATES = await response.json();
-        
+
         // Initialize templates directly in the search instance
         if (window.applicationInstance?.templateSearch) {
             window.applicationInstance.templateSearch.setTemplates(TEMPLATES);
@@ -138,162 +136,6 @@ async function loadDepartments() {
     }
 }
 
-// Initialize Supabase client outside any function
-const supabaseClient = createClient(
-    'https://wcekcagojgvgkfhbgnfy.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndjZWtjYWdvamd2Z2tmaGJnbmZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgyOTA0MTAsImV4cCI6MjA1Mzg2NjQxMH0.hryXIl30caQ_ILCv1iwyjRcRWpJXjJXeVk1e8xRbVrg'
-);
-
-
-async function updateStudentData() {
-    // Get form values and validate required fields
-    const studentId = document.getElementById('studentId')?.value?.trim();
-    const password = document.getElementById('studentPassword')?.value?.trim();
-
-    if (!studentId || !password) {
-        alert('Student ID and password are required');
-        return;
-    }
-
-    // Create complete student data object with all fields
-    const studentData = {
-        student_id: studentId,
-        password: password,
-        full_name: document.getElementById('studentName')?.value?.trim() || '',
-        section: document.getElementById('studentSection')?.value?.trim() || '',
-        department: document.getElementById('studentDepartment')?.value?.trim() || '',
-        university_name: document.getElementById('studentUniversityName')?.value?.trim() || '',
-        contact_info: document.getElementById('contactInfo')?.value?.trim() || ''
-    };
-
-    // Validate required fields
-    if (!studentData.full_name || !studentData.department || !studentData.university_name) {
-        alert('Name, Department, and University Name are required fields');
-        return;
-    }
-
-    try {
-        // Show loading state
-        const updateButton = document.getElementById('updateDbButton');
-        if (updateButton) {
-            updateButton.disabled = true;
-            updateButton.textContent = 'Updating...';
-        }
-
-        // Check if student exists
-        const { data: existingStudent, error: fetchError } = await supabaseClient
-            .from('students')
-            .select('*')
-            .eq('student_id', studentId)
-            .maybeSingle();
-
-        if (fetchError) {
-            throw fetchError;
-        }
-
-        let result;
-        
-        if (existingStudent) {
-            // Update existing student
-            if (existingStudent.password === password) {
-                const { data, error } = await supabaseClient
-                    .from('students')
-                    .update({
-                        full_name: studentData.full_name,
-                        section: studentData.section,
-                        department: studentData.department,
-                        university_name: studentData.university_name,
-                        contact_info: studentData.contact_info
-                    })
-                    .eq('student_id', studentId)
-                    .select();
-                
-                if (error) throw error;
-                result = data;
-            } else {
-                throw new Error('Incorrect password');
-            }
-        } else {
-            // Insert new student
-            const { data, error } = await supabaseClient
-                .from('students')
-                .insert([studentData])
-                .select();
-            
-            if (error) throw error;
-            result = data;
-        }
-
-        alert(existingStudent ? 'Student information updated successfully!' : 'New student record created successfully!');
-        
-        // Refresh the displayed data
-        await fetchStudentData(studentId);
-
-    } catch (error) {
-        console.error('Error updating student data:', error);
-        
-        if (error.message === 'Incorrect password') {
-            alert('Incorrect password. Please try again.');
-        } else if (error.code === '23505') {
-            alert('A student with this ID already exists.');
-        } else if (error.code === 'PGRST116') {
-            alert('Student not found.');
-        } else {
-            alert(`Error updating database: ${error.message}`);
-        }
-    } finally {
-        // Reset button state
-        const updateButton = document.getElementById('updateDbButton');
-        if (updateButton) {
-            updateButton.disabled = false;
-            updateButton.textContent = 'Update Database';
-        }
-    }
-}
-
-// Updated fetch function to properly handle all fields
-async function fetchStudentData(studentId) {
-    try {
-        const { data, error } = await supabaseClient
-            .from('students')
-            .select('*')
-            .eq('student_id', studentId)
-            .maybeSingle();
-
-        if (error) throw error;
-
-        if (data) {
-            // Update all form fields with fetched data
-            const fields = {
-                'studentName': data.full_name,
-                'studentSection': data.section,
-                'studentDepartment': data.department,
-                'studentUniversityName': data.university_name,
-                // 'contactInfo': data.contact_info
-            };
-
-            for (const [id, value] of Object.entries(fields)) {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.value = value || ''; // Handle null/undefined values
-                }
-            }
-        } else {
-            // Clear all form fields if no student found
-            const fields = ['studentName', 'studentSection', 'studentDepartment', 'studentUniversityName', 'contactInfo'];
-            fields.forEach(id => {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.value = '';
-                }
-            });
-        }
-    } catch (error) {
-        console.error('Error fetching student data:', error);
-        alert(`Error fetching student data: ${error.message}`);
-    }
-}
-
 class FormUtils {
     static formatDate(dateString) {
         if (!dateString) return '';
@@ -343,7 +185,7 @@ class FormUtils {
     static validateRequiredFields() {
         const requiredFields = [
             'date',
-            'designation', 
+            'designation',
             'universityName',
             'subject',
             'gender',
@@ -391,12 +233,12 @@ class PreviewManager {
 
     updatePreview() {
         const formData = FormUtils.getFormData();
-        
+
         // Update word count display
         const wordCount = FormUtils.countBodyWords();
-        this.updateElement('preview-word-count', 
-            `Word Count: ${wordCount} / 200 words (${Math.round(wordCount/200*100)}% of typical page)`);
-        
+        this.updateElement('preview-word-count',
+            `Word Count: ${wordCount} / 200 words (${Math.round(wordCount / 200 * 100)}% of typical page)`);
+
         // Update preview sections
         this.updateElement('preview-date', `<strong>${formData.date || ''}</strong>`);
         this.updateElement('preview-recipient', this.generateRecipientHTML(formData));
@@ -428,7 +270,7 @@ class PreviewManager {
             formData.details,
             formData.closing
         ].filter(Boolean).join('\n\n');
-        
+
         return bodyContent.split('\n').join('<br>');
     }
 
@@ -459,7 +301,7 @@ class PDFGenerator {
         }
 
         this.showSpinner();
-        
+
         try {
             const content = document.querySelector('.preview-content');
             if (!content) {
@@ -469,7 +311,7 @@ class PDFGenerator {
             const clone = this.createContentClone(content);
             const canvas = await this.generateCanvas(clone);
             document.body.removeChild(clone);
-            
+
             await this.createAndSavePDF(canvas);
         } catch (error) {
             console.error('Error generating PDF:', error);
@@ -482,7 +324,7 @@ class PDFGenerator {
     createContentClone(content) {
         const clone = content.cloneNode(true);
         document.body.appendChild(clone);
-        
+
         // Match exact preview styling
         Object.assign(clone.style, {
             width: '210mm',
@@ -502,16 +344,16 @@ class PDFGenerator {
         elements.forEach(element => {
             element.style.fontFamily = 'Times New Roman, serif';
             element.style.fontSize = '12pt';
-            
+
             // Match preview margins
             if (element.id === 'preview-recipient' || element.id === 'preview-signature') {
                 element.style.lineHeight = '1.6';
             }
-            
+
             if (['preview-date', 'preview-recipient', 'preview-subject', 'preview-salutation', 'preview-body'].includes(element.id)) {
                 element.style.marginBottom = '1.5rem';
             }
-            
+
             if (element.id === 'preview-signature') {
                 element.style.marginTop = '2rem';
             }
@@ -542,7 +384,7 @@ class PDFGenerator {
         }
 
         const { jsPDF } = window.jspdf;
-        
+
         const pdf = new jsPDF({
             orientation: 'portrait',
             unit: 'mm',
@@ -557,22 +399,22 @@ class PDFGenerator {
         scaledCanvas.width = canvas.width * scale;
         scaledCanvas.height = canvas.height * scale;
         const ctx = scaledCanvas.getContext('2d');
-        
+
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, scaledCanvas.width, scaledCanvas.height);
-        
+
         ctx.scale(scale, scale);
         ctx.drawImage(canvas, 0, 0);
 
         const imgWidth = 210;
         const imgHeight = (scaledCanvas.height * imgWidth) / scaledCanvas.width;
-        
+
         const imgData = scaledCanvas.toDataURL('image/jpeg', 1.0);
-        
+
         pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
-        
+
         const studentId = document.getElementById('studentId')?.value?.trim() || 'unknown';
-        const currentDate = new Date().toISOString().slice(0,10); 
+        const currentDate = new Date().toISOString().slice(0, 10);
         const name = (document.getElementById('pdfName')?.value?.trim() || `${studentId}_Application_${currentDate}`).replace(/\s+/g, '_');
         pdf.save(`${name}.pdf`);
     }
@@ -823,7 +665,7 @@ class DocxGenerator {
             const link = document.createElement('a');
             link.href = url;
             const studentId = document.getElementById('studentId')?.value?.trim() || 'unknown';
-            const currentDate = new Date().toISOString().slice(0,10); 
+            const currentDate = new Date().toISOString().slice(0, 10);
             const name = document.getElementById('pdfName')?.value?.trim() || `${studentId}_Application_${currentDate}`;
             link.download = `${name}.docx`;
             document.body.appendChild(link);
@@ -857,14 +699,6 @@ class ApplicationManager {
         // Initialize template search after creation
         this.templateSearch.setTemplates(TEMPLATES);
         this.initializeEventListeners();
-        this.initializeUpdateButton();
-    }
-
-    initializeUpdateButton() {
-        const updateBtn = document.getElementById('updateDbButton');
-        if (updateBtn) {
-            updateBtn.addEventListener('click', updateStudentData);
-        }
     }
 
     initializeEventListeners() {
@@ -902,7 +736,7 @@ class ApplicationManager {
     populateTemplate(template) {
         try {
             const fields = ['subject', 'introduction', 'description', 'reason', 'details', 'closing'];
-            
+
             fields.forEach(field => {
                 const element = document.getElementById(field);
                 if (element) {
@@ -921,13 +755,13 @@ class ApplicationManager {
         try {
             document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
+
             button.classList.add('active');
             const tabContent = document.getElementById(button.dataset.tab);
             if (tabContent) {
                 tabContent.classList.add('active');
             }
-            
+
             if (button.dataset.tab === 'preview') {
                 this.previewManager.updatePreview();
             }
@@ -940,10 +774,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         // Load templates first
         await loadTemplates();
-        
+
         // Initialize the application manager
         window.applicationInstance = new ApplicationManager();
-        
+
         // Load other data
         await Promise.all([
             loadUniversities(),
@@ -952,17 +786,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             loadStudentUniversities(),
             loadStudentDepartments()
         ]);
-        
-        // Initialize student ID listener
-        const studentIdInput = document.getElementById('studentId');
-        if (studentIdInput) {
-            studentIdInput.addEventListener('input', (e) => {
-                const studentId = e.target.value;
-                if (studentId.length >= 5) {
-                    fetchStudentData(studentId);
-                }
-            });
-        }
     } catch (error) {
         console.error('Error initializing application:', error);
     }
@@ -990,14 +813,14 @@ class TemplateSearch {
 
         const searchContainer = document.createElement('div');
         searchContainer.className = 'form-group template-search';
-        
+
         // Create search input
         this.searchInput = document.createElement('input');
         this.searchInput.type = 'text';
         this.searchInput.id = 'template-search';
         this.searchInput.className = 'form-control';
         this.searchInput.placeholder = 'Search templates...';
-        
+
         // Create search results container
         this.searchResults = document.createElement('div');
         this.searchResults.className = 'template-search-results';
@@ -1013,11 +836,11 @@ class TemplateSearch {
             z-index: 1000;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         `;
-        
+
         // Add elements to DOM
         searchContainer.appendChild(this.searchInput);
         searchContainer.appendChild(this.searchResults);
-        
+
         // Insert before template select
         const templateSelect = document.getElementById('template-select');
         if (templateSelect && templateSelect.parentElement) {
@@ -1090,7 +913,7 @@ class TemplateSearch {
                     template.details,
                     template.closing
                 ].filter(Boolean).join(' ').toLowerCase();
-                
+
                 return searchableText.includes(searchTerm);
             })
             .map(([key, template]) => ({
@@ -1103,7 +926,7 @@ class TemplateSearch {
         if (!this.searchResults) return;
 
         this.searchResults.innerHTML = '';
-        
+
         if (results.length === 0) {
             const noResults = document.createElement('div');
             noResults.className = 'template-result no-results';
@@ -1120,28 +943,28 @@ class TemplateSearch {
                     border-bottom: 1px solid #eee;
                     transition: background-color 0.2s;
                 `;
-                
+
                 resultElement.innerHTML = `
                     <div style="font-weight: bold">${this.formatTemplateName(result.key)}</div>
                     <div style="color: #666; font-size: 0.9em">${result.subject || ''}</div>
                 `;
-                
+
                 resultElement.addEventListener('mouseenter', () => {
                     resultElement.style.backgroundColor = '#f5f5f5';
                 });
-                
+
                 resultElement.addEventListener('mouseleave', () => {
                     resultElement.style.backgroundColor = 'white';
                 });
-                
+
                 resultElement.addEventListener('click', () => {
                     this.selectTemplate(result.key);
                 });
-                
+
                 this.searchResults.appendChild(resultElement);
             });
         }
-        
+
         this.showResults();
     }
 
@@ -1161,18 +984,18 @@ class TemplateSearch {
             const event = new Event('change', { bubbles: true });
             templateSelect.dispatchEvent(event);
         }
-        
+
         // Populate template directly
         const template = this.templates[templateKey];
         if (template) {
             this.populateTemplate(template);
         }
-        
+
         // Call the callback if it exists
         if (this.onTemplateSelect) {
             this.onTemplateSelect(templateKey);
         }
-        
+
         this.hideResults();
         this.searchInput.value = '';
         this.selectedTemplate = templateKey;
@@ -1180,7 +1003,7 @@ class TemplateSearch {
 
     populateTemplate(template) {
         const fields = ['subject', 'introduction', 'description', 'reason', 'details', 'closing'];
-        
+
         fields.forEach(field => {
             const element = document.getElementById(field);
             if (element) {

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,19 +12,19 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/docx@7.8.2/build/index.js"></script>
     <!-- Google tag (gtag.js) -->
-     <!-- Google Analytics -->
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HCQ6ZRJZTR"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-    gtag('config', 'G-HCQ6ZRJZTR');
+        gtag('config', 'G-HCQ6ZRJZTR');
     </script>
 </head>
+
 <body>
     <div id="loadingSpinner" class="loading-spinner">
         <div class="spinner"></div>
@@ -38,7 +39,7 @@
         <div class="tab-content active" id="detailsTab">
             <div class="card">
                 <h2>Application Details</h2>
-                
+
                 <div class="template-section">
                     <div class="form-group">
                         <label>Name of the pdf (optional)</label>
@@ -50,28 +51,33 @@
                     <label>Date*</label>
                     <input type="date" id="date" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label>Recipient Designation*</label>
-                    <input type="text" id="designation" placeholder="Enter recipient designation" list="designation-list" required>
+                    <input type="text" id="designation" placeholder="Enter recipient designation"
+                        list="designation-list" required>
                     <datalist id="designation-list"></datalist>
                 </div>
-                
+
                 <div class="form-group">
                     <label>Recipient University Name*</label>
-                    <input type="text" id="universityName" placeholder="Enter recipient university name" list="university-list" required>
+                    <input type="text" id="universityName" placeholder="Enter recipient university name"
+                        list="university-list" required>
                     <datalist id="university-list"></datalist>
                 </div>
 
                 <div class="form-group">
                     <label>Department/Office (Optional)</label>
-                    <input type="text" id="department" placeholder="Enter recipient department/office" list="department-list">
+                    <input type="text" id="department" placeholder="Enter recipient department/office"
+                        list="department-list">
                     <datalist id="department-list"></datalist>
                 </div>
-                
+
                 <div class="form-group">
                     <label>Subject*</label>
-                    <input type="text" id="subject" placeholder="Enter subject" demo-data="Application for Semester Registration Payment Extension and Penalty Waiver." required>
+                    <input type="text" id="subject" placeholder="Enter subject"
+                        demo-data="Application for Semester Registration Payment Extension and Penalty Waiver."
+                        required>
                 </div>
 
                 <div class="form-group">
@@ -84,7 +90,8 @@
 
                 <div class="form-group">
                     <div class="section-label">Introduction*</div>
-                    <textarea id="introduction" placeholder="Briefly introduce yourself and state your purpose" required></textarea>
+                    <textarea id="introduction" placeholder="Briefly introduce yourself and state your purpose"
+                        required></textarea>
                 </div>
 
                 <div class="form-group">
@@ -99,7 +106,8 @@
 
                 <div class="form-group">
                     <div class="section-label">Supporting Details</div>
-                    <textarea id="details" placeholder="Add any additional information or context (optional)"></textarea>
+                    <textarea id="details"
+                        placeholder="Add any additional information or context (optional)"></textarea>
                 </div>
 
                 <div class="form-group">
@@ -109,48 +117,47 @@
 
                 <div class="form-group">
                     <label>Student ID*</label>
-                    <input type="text" id="studentId" placeholder="Enter your student ID" demo-data="CSE220120819" list="studentId-list"    required>
+                    <input type="text" id="studentId" placeholder="Enter your student ID" demo-data="CSE220120819"
+                        list="studentId-list" required>
                     <datalist id="studentId-list"></datalist>
                 </div>
 
                 <div class="form-group">
                     <label>Full Name*</label>
-                    <input type="text" id="studentName" placeholder="Enter your full name" demo-data="John Doe" list="studentName-list" required>
-                    <datalist id="studentName-list"></datalist> 
+                    <input type="text" id="studentName" placeholder="Enter your full name" demo-data="John Doe"
+                        list="studentName-list" required>
+                    <datalist id="studentName-list"></datalist>
                 </div>
 
                 <div class="form-group">
                     <label>Section (Optional)</label>
-                    <input type="text" id="studentSection" placeholder="Enter your section" list="section-list" demo-data="6B" required>
+                    <input type="text" id="studentSection" placeholder="Enter your section" list="section-list"
+                        demo-data="6B" required>
                     <datalist id="section-list">
                         <option value="6B">6B</option>
                     </datalist>
                 </div>
-            
+
                 <div class="form-group">
                     <label>Student Department*</label>
-                    <input type="text" id="studentDepartment" placeholder="Enter student department" list="department-list" required>
+                    <input type="text" id="studentDepartment" placeholder="Enter student department"
+                        list="department-list" required>
                     <datalist id="department-list"></datalist>
                 </div>
 
                 <div class="form-group">
                     <label>Student University Name*</label>
-                    <input type="text" id="studentUniversityName" placeholder="Enter student university name" list="student-university-list" required>
+                    <input type="text" id="studentUniversityName" placeholder="Enter student university name"
+                        list="student-university-list" required>
                     <datalist id="student-university-list"></datalist>
                 </div>
 
                 <div class="form-group">
                     <label>Student Contact Information (Optional)</label>
-                    <input type="text" id="contactInfo" placeholder="Email or Phone Number" demo-data="john.doe@example.com">
+                    <input type="text" id="contactInfo" placeholder="Email or Phone Number"
+                        demo-data="john.doe@example.com">
                     <datalist id="contactInfo-list"></datalist>
                 </div>
-
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="studentPassword" placeholder="Enter your password" required>
-                </div>
-
-                <button type="button" id="updateDbButton" class="update-btn">Update Database</button>
 
             </div>
         </div>
@@ -162,7 +169,8 @@
                     <div id="preview-word-count" class="word-count"></div>
                     <div class="download-buttons">
                         <button class="download-btn" onclick="generatePDF()">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="7 10 12 15 17 10"></polyline>
                                 <line x1="12" y1="15" x2="12" y2="3"></line>
@@ -170,7 +178,8 @@
                             PDF
                         </button>
                         <button class="download-docx-btn">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                                 <polyline points="14 2 14 8 20 8"></polyline>
                             </svg>
@@ -178,7 +187,7 @@
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="preview-content">
                     <div id="preview-date" class="mb-4"></div>
                     <div id="preview-recipient" class="mb-4"></div>
@@ -204,7 +213,9 @@
                 <h3>Project Repository</h3>
                 <a href="https://github.com/QKnot/University-Formal-Application-Generator" target="_blank">
                     <svg height="20" width="20" viewBox="0 0 16 16" fill="currentColor">
-                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+                        </path>
                     </svg>
                     View on GitHub
                 </a>
@@ -217,4 +228,5 @@
 
     <script src="App/script.js"></script>
 </body>
+
 </html>

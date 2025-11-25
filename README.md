@@ -11,7 +11,6 @@ A web-based tool that helps students generate professional formal applications a
 - **Student Data Management**: Save and retrieve student information for faster application generation
 - **Responsive Design**: Works seamlessly across different devices and screen sizes
 - **Word Count Tracking**: Monitor the length of your application in real-time
-- **Database Integration**: Secure storage and retrieval of student information via Supabase
 
 ## Technologies Used
 
@@ -23,15 +22,11 @@ A web-based tool that helps students generate professional formal applications a
   - [html2canvas](https://github.com/niklasvh/html2canvas) for HTML to canvas conversion
   - [docx](https://github.com/dolanmiu/docx) for DOCX file generation
 
-- **Backend**:
-  - [Supabase](https://supabase.com/) for database management and authentication
-
 ## Getting Started
 
 ### Prerequisites
 
 - A modern web browser (Chrome, Firefox, Safari, or Edge)
-- Internet connection for database functionality
 
 ### Installation
 
@@ -47,17 +42,7 @@ cd University-Formal-Application-Generator
 
 3. Open `index.html` in your web browser or set up a local server.
 
-### Configuration
-
-1. Update the Supabase configuration in `script.js` with your own credentials:
-```javascript
-const supabaseClient = createClient(
-    'YOUR_SUPABASE_URL',
-    'YOUR_SUPABASE_ANON_KEY'
-);
-```
-
-## Usage
+### Usage
 
 1. Fill in the application details in the form fields:
    - Date
@@ -70,19 +55,12 @@ const supabaseClient = createClient(
 
 3. Generate your application in either PDF or DOCX format using the download buttons
 
-4. Optionally save your information to the database for future use
-
 ## Features in Detail
 
 ### Template System
 - Search through pre-defined templates
 - Quick-fill application content based on selected templates
 - Customizable template content
-
-### Student Data Management
-- Save student information for future use
-- Automatic retrieval of saved data
-- Secure password protection for data access
 
 ### Document Generation
 - Professional PDF formatting
