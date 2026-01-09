@@ -97,23 +97,66 @@ h2 {
     margin-top: 2rem;
 }
 
-/* Preview Section */
-.preview-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.preview-content {
+    font-family: "Times New Roman", serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    padding: 25.4mm;  /* 1 inch margin */
+    background: white;
+    min-height: 297mm;
+    width: 210mm;     /* A4 width */
+    margin: 0 auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: justify;
+}
+
+.preview-content div {
+    font-family: "Times New Roman", serif;
+    font-size: 12pt;
+}
+
+#preview-date {
     margin-bottom: 1.5rem;
 }
 
-.preview-content {
-    font-family: "Times New Roman", Times, serif;
-    font-size: 12px;
+#preview-recipient {
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+#preview-subject {
+    margin-bottom: 1.5rem;
+}
+
+#preview-salutation {
+    margin-bottom: 1.5rem;
+}
+
+#preview-body {
+    margin-bottom: 1.5rem;
+    text-align: justify;
+}
+
+#preview-signature {
+    margin-top: 2rem;
+    line-height: 1.6;
+}
+
+/* Ensure preview container is centered and scrollable */
+#preview .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: auto;
     padding: 2rem;
-    background: white;
-    min-height: 297mm;
-    width: 210mm;
-    margin: 0 auto;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.preview-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 .template-section {
@@ -266,4 +309,95 @@ h2 {
     padding: 0.25rem 0.5rem;
     background: #f3f4f6;
     border-radius: 0.25rem;
+}
+.download-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.download-btn,
+.download-docx-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.download-btn:hover,
+.download-docx-btn:hover {
+    background-color: #1d4ed8;
+}
+
+.download-docx-btn {
+    background-color: #047857;
+}
+
+.download-docx-btn:hover {
+    background-color: #065f46;
+}
+
+/* Add these styles to your styles.css file */
+
+.template-search {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.template-search input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+}
+
+.template-search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.template-result {
+    padding: 0.75rem;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.template-result:last-child {
+    border-bottom: none;
+}
+
+.template-result:hover {
+    background-color: #f8fafc;
+}
+
+.template-result-title {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.template-result-subject {
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.no-results {
+    padding: 0.75rem;
+    text-align: center;
+    color: #666;
 }
